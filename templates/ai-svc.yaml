@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-ai
+spec:
+  type: {{ .Values.ai.service.type }}
+  selector:
+    app: {{ .Release.Name }}-ai
+  ports:
+    - protocol: TCP
+      port: {{ .Values.ai.service.port }}
+      targetPort: {{ .Values.ai.service.port }}

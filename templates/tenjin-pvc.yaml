@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-pvc
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  accessModes:
+    - {{ .Values.tenjin.persistence.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.tenjin.persistence.size }}
+  storageClassName: {{ .Values.tenjin.persistence.storageClass | default "standard" }}
+  volumeName: "tenjin-eps-pv"  
+

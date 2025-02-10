@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-tenjin
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.tenjin.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: tenjin
+          image: "{{ .Values.tenjin.image.repository }}:{{ .Values.tenjin.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.tenjin.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-configmaptenjin
+          volumeMounts:
+            - name: tenjin-storage
+              mountPath: /root
+      volumes:
+        - name: tenjin-storage
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-pvc

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-elasticsearch-config
+data:
+  bootstrap.memory_lock: "{{ .Values.elasticsearch.config.bootstrapMemoryLock }}"
+  ES_JAVA_OPTS: "{{ .Values.elasticsearch.config.esJavaOpts }}"
+  discovery.type: "{{ .Values.elasticsearch.config.discoveryType }}"
+  xpack.security.enabled: "{{ .Values.elasticsearch.config.xpackSecurityEnabled }}"

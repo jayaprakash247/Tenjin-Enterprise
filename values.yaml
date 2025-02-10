@@ -1,0 +1,84 @@
+tenjin: 
+  replicaCount: 1
+
+  image:
+    repository: yethitech/tenjin-enterprise
+    tag: latest
+
+  service:
+    type: NodePort
+    port: 8080
+
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: "standard"  
+    size: 5Gi
+
+ai: 
+  replicaCount: 1
+
+  image:
+    repository: yethitech/ai-testcase-generation
+    tag: latest
+
+  service:
+    type: ClusterIP
+    port: 8022
+
+kibana:
+  replicaCount: 1
+
+  image:
+    repository: docker.elastic.co/kibana/kibana
+    tag: 8.5.1
+
+  service:
+    type: ClusterIP
+    port: 5601
+
+elasticsearch:
+  replicaCount: 1
+
+  image:
+    repository: docker.elastic.co/elasticsearch/elasticsearch
+    tag: 8.5.1
+
+  service:
+    type: ClusterIP
+    restPort: 9200
+    clusterPort: 9300
+
+  storage:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: "standard"  
+    size: 5Gi
+  config:
+    bootstrapMemoryLock: "true"
+    esJavaOpts: "-Xms2G -Xmx2G"
+    discoveryType: "single-node"
+    xpackSecurityEnabled: "false"
+
+
+postgresql:
+  replicaCount: 1
+
+  image:
+    repository: postgres
+    tag: latest
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  storage:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: "standard" 
+    size: 2Gi
+
+  config:
+    POSTGRES_DB: tenjin_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres

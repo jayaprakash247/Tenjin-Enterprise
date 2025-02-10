@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ai
+spec:
+  replicas: {{ .Values.ai.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-ai
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-ai
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-ai
+          image: "{{ .Values.ai.image.repository }}:{{ .Values.ai.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.ai.service.port }}
